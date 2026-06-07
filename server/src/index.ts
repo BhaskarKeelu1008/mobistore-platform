@@ -9,6 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import { createServer } from 'http';
 import { connectDB } from './config/db';
 import { env } from './config/env';
+import { validateEnv } from './config/validate-env';
 import { swaggerSpec } from './config/swagger';
 import routes from './routes';
 import { errorHandler, notFound } from './middleware/validate';
@@ -33,12 +34,16 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-app.get('/', (_req, res) => {
+app.get('/', (req, res) => {
+  const baseUrl =
+    process.env.RENDER_EXTERNAL_URL ||
+    `${req.protocol}://${req.get('host')}`;
+
   res.json({
     success: true,
     message: 'MobiStore API Server',
-    docs: `http://localhost:${env.port}/api/docs`,
-    health: `http://localhost:${env.port}/api/health`,
+    docs: `${baseUrl}/api/docs`,
+    health: `${baseUrl}/api/health`,
   });
 });
 
@@ -50,6 +55,7 @@ app.use(errorHandler);
 initializeSocket(httpServer);
 
 const start = async () => {
+  validateEnv();
   await connectDB();
   httpServer.listen(env.port, () => {
     console.log(`Server running on port ${env.port} in ${env.nodeEnv} mode`);

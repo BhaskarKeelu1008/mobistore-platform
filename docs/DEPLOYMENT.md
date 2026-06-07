@@ -15,10 +15,27 @@
 ## 1. MongoDB Atlas Setup
 
 1. Create account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-2. Create a **Free M0 Cluster**
-3. Create database user with read/write access
-4. Whitelist IP: `0.0.0.0/0` (for POC) or specific Render/Vercel IPs
-5. Copy connection string: `mongodb+srv://user:pass@cluster.mongodb.net/mobistore`
+2. Create a **Free M0 Cluster** (resume it if Atlas shows **Paused**)
+3. **Database Access** → create a user with password (read/write on `mobistore`)
+4. **Network Access** → **Add IP Address** → choose **Allow Access from Anywhere**
+   - This adds `0.0.0.0/0` and is **required for Render** (Render uses changing outbound IPs; you cannot whitelist a single Render IP on the free tier)
+   - Wait 1–2 minutes after saving before redeploying
+5. **Database** → Connect → Drivers → copy URI:
+
+```text
+mongodb+srv://<username>:<password>@<cluster>.mongodb.net/mobistore?retryWrites=true&w=majority
+```
+
+**If the password contains special characters** (`@`, `#`, `%`, `/`, etc.), URL-encode them in the connection string (e.g. `@` → `%40`).
+
+### Atlas connection errors on Render
+
+| Error | Fix |
+|-------|-----|
+| `MongooseServerSelectionError` / IP not whitelisted | Add `0.0.0.0/0` under **Network Access** |
+| Works locally, fails on Render | Your home IP is whitelisted but Render’s is not → use `0.0.0.0/0` |
+| Authentication failed | Wrong username/password in `MONGODB_URI` on Render |
+| Cluster paused | Open Atlas → **Resume** the M0 cluster |
 
 ---
 
@@ -49,12 +66,16 @@
    - **Start Command**: `npm start`
    - **Environment**: Node
 
-4. Add Environment Variables:
+4. Add Environment Variables (**use real values — not placeholders like `YOUR_CLUSTER`**):
+
+   - Open **MongoDB Atlas → Database → Connect → Drivers**
+   - Copy the full URI (hostname looks like `cluster0.ab1cd.mongodb.net` or `mobistore-cluster.w70agqh.mongodb.net`)
+   - Or copy `MONGODB_URI` from your local `server/.env` (never commit that file)
 
 ```env
 NODE_ENV=production
 PORT=5000
-MONGODB_URI=mongodb+srv://...
+MONGODB_URI=mongodb+srv://dbuser:password@cluster0.xxxxx.mongodb.net/mobistore?retryWrites=true&w=majority
 JWT_SECRET=your-long-random-secret
 JWT_REFRESH_SECRET=your-long-random-refresh-secret
 RAZORPAY_KEY_ID=rzp_test_...
@@ -64,6 +85,8 @@ CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
 FRONTEND_URL=https://your-app.vercel.app
 ```
+
+> **Common Render error:** `ENOTFOUND _mongodb._tcp.YOUR_CLUSTER.mongodb.net` means `MONGODB_URI` still contains a template hostname. Replace it with your real Atlas cluster host.
 
 5. Deploy and note API URL: `https://your-api.onrender.com`
 
