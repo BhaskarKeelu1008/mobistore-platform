@@ -9,15 +9,13 @@ import {
   ShoppingCart,
   Heart,
   User,
-  Sun,
-  Moon,
   Smartphone,
   Package,
   Tag,
   Grid3X3,
 } from 'lucide-react';
-import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { Badge } from '@/components/ui/badge';
 import { SearchBar } from '@/components/shop/search-bar';
 import { useCartStore } from '@/store/cart-store';
@@ -34,7 +32,6 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
   const cartCount = useCartStore((s) => s.getTotalItems());
   const { isAuthenticated, user, logout } = useAuthStore();
 
@@ -67,49 +64,43 @@ export function Header() {
           </nav>
 
           <div className="ml-auto flex items-center gap-1 sm:gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              aria-label="Toggle theme"
-            >
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <ThemeToggle />
+
+            <Button variant="ghost" size="icon" aria-label="Wishlist" asChild>
+              <Link href="/wishlist">
+                <Heart className="h-5 w-5" />
+              </Link>
             </Button>
 
-            <Link href="/wishlist">
-              <Button variant="ghost" size="icon" aria-label="Wishlist">
-                <Heart className="h-5 w-5" />
-              </Button>
-            </Link>
-
-            <Link href="/cart" className="relative">
-              <Button variant="ghost" size="icon" aria-label="Cart">
-                <ShoppingCart className="h-5 w-5" />
+            <div className="relative">
+              <Button variant="ghost" size="icon" aria-label="Cart" asChild>
+                <Link href="/cart">
+                  <ShoppingCart className="h-5 w-5" />
+                </Link>
               </Button>
               {cartCount > 0 && (
                 <Badge className="absolute -right-1 -top-1 h-5 min-w-5 justify-center px-1 text-[10px]">
                   {cartCount}
                 </Badge>
               )}
-            </Link>
+            </div>
 
             {isAuthenticated ? (
               <div className="hidden items-center gap-2 sm:flex">
-                <Link href="/account">
-                  <Button variant="ghost" size="sm" className="gap-2">
+                <Button variant="ghost" size="sm" className="gap-2" asChild>
+                  <Link href="/account">
                     <User className="h-4 w-4" />
                     <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0]}</span>
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
                 <Button variant="outline" size="sm" onClick={() => logout()}>
                   Logout
                 </Button>
               </div>
             ) : (
-              <Link href="/login" className="hidden sm:block">
-                <Button size="sm">Login</Button>
-              </Link>
+              <Button size="sm" className="hidden sm:inline-flex" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
             )}
 
             <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -141,9 +132,11 @@ export function Header() {
               Track Order
             </Link>
             {!isAuthenticated && (
-              <Link href="/login" onClick={() => setMobileOpen(false)}>
-                <Button className="mt-2 w-full">Login / Register</Button>
-              </Link>
+              <Button className="mt-2 w-full" asChild>
+                <Link href="/login" onClick={() => setMobileOpen(false)}>
+                  Login / Register
+                </Link>
+              </Button>
             )}
           </nav>
         </div>

@@ -33,6 +33,15 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+app.get('/', (_req, res) => {
+  res.json({
+    success: true,
+    message: 'MobiStore API Server',
+    docs: `http://localhost:${env.port}/api/docs`,
+    health: `http://localhost:${env.port}/api/health`,
+  });
+});
+
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', routes);
 app.use(notFound);

@@ -129,7 +129,7 @@ const seed = async () => {
         shortDescription: 'Flagship with Galaxy AI and 200MP camera',
         category: mobilesCat._id,
         brand: samsung._id,
-        images: ['https://images.unsplash.com/photo-1610945265064-0e34e55182fa?w=800'],
+        images: ['https://placehold.co/800x800/1e3a8a/ffffff?text=Galaxy+S24+Ultra'],
         variants: [
           { color: 'Titanium Black', storage: '256GB', ram: '12GB', sku: 'SGS24U-256-BLK', price: 129999, discountPrice: 124999, stock: 15, images: [] },
           { color: 'Titanium Gray', storage: '512GB', ram: '12GB', sku: 'SGS24U-512-GRY', price: 144999, discountPrice: 139999, stock: 8, images: [] },
@@ -161,7 +161,7 @@ const seed = async () => {
         shortDescription: 'Pro Max with A17 Pro and titanium design',
         category: mobilesCat._id,
         brand: apple._id,
-        images: ['https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800'],
+        images: ['https://placehold.co/800x800/27272a/ffffff?text=iPhone+15+Pro+Max'],
         variants: [
           { color: 'Natural Titanium', storage: '256GB', ram: '8GB', sku: 'IP15PM-256-NAT', price: 159900, discountPrice: 154900, stock: 12, images: [] },
           { color: 'Blue Titanium', storage: '512GB', ram: '8GB', sku: 'IP15PM-512-BLU', price: 179900, discountPrice: 174900, stock: 6, images: [] },
@@ -191,7 +191,7 @@ const seed = async () => {
         shortDescription: 'Performance flagship with 100W charging',
         category: mobilesCat._id,
         brand: oneplus._id,
-        images: ['https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800'],
+        images: ['https://placehold.co/800x800/dc2626/ffffff?text=OnePlus+12R'],
         variants: [
           { color: 'Cool Blue', storage: '128GB', ram: '8GB', sku: 'OP12R-128-BLU', price: 39999, discountPrice: 36999, stock: 25, images: [] },
           { color: 'Iron Gray', storage: '256GB', ram: '12GB', sku: 'OP12R-256-GRY', price: 44999, discountPrice: 41999, stock: 20, images: [] },
@@ -215,7 +215,7 @@ const seed = async () => {
         shortDescription: 'TWS with 42H playback',
         category: accessoriesCat._id,
         brand: boat._id,
-        images: ['https://images.unsplash.com/photo-1590658268037-6af12165ae66?w=800'],
+        images: ['https://placehold.co/800x800/18181b/ffffff?text=boAt+Airdopes'],
         variants: [
           { color: 'Active Black', sku: 'BA141-BLK', price: 1299, discountPrice: 999, stock: 100, images: [] },
         ],
@@ -234,7 +234,7 @@ const seed = async () => {
         description: 'Official Samsung 25W Super Fast Charging adapter with USB-C cable.',
         category: createdCategories.find((c) => c.slug === 'chargers')!._id,
         brand: samsung._id,
-        images: ['https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800'],
+        images: ['https://placehold.co/800x800/f5f5f5/18181b?text=Samsung+Charger'],
         variants: [{ color: 'White', sku: 'SAM-25W-WHT', price: 1499, discountPrice: 1199, stock: 50, images: [] }],
         basePrice: 1499,
         discountPrice: 1199,
@@ -250,7 +250,7 @@ const seed = async () => {
         description: '10000mAh lithium polymer power bank with 22.5W fast charging.',
         category: createdCategories.find((c) => c.slug === 'power-banks')!._id,
         brand: createdBrands.find((b) => b.slug === 'ambrane')!._id,
-        images: ['https://images.unsplash.com/photo-1609091839311-9a442f630e65?w=800'],
+        images: ['https://placehold.co/800x800/404040/ffffff?text=Power+Bank'],
         variants: [{ color: 'Black', sku: 'AMB-PB10K-BLK', price: 999, discountPrice: 799, stock: 75, images: [] }],
         basePrice: 999,
         discountPrice: 799,
@@ -268,7 +268,7 @@ const seed = async () => {
       {
         title: 'Galaxy S24 Ultra Launch',
         subtitle: 'Get ₹5000 off + Free Galaxy Buds',
-        image: 'https://images.unsplash.com/photo-1610945265064-0e34e55182fa?w=1200',
+        image: 'https://placehold.co/1200x500/1e3a8a/ffffff?text=Galaxy+S24+Ultra+Launch',
         link: '/products/samsung-galaxy-s24-ultra',
         buttonText: 'Shop Now',
         position: 'hero',
@@ -278,7 +278,7 @@ const seed = async () => {
       {
         title: 'iPhone 15 Pro Max',
         subtitle: 'Exchange offer up to ₹15000',
-        image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=1200',
+        image: 'https://placehold.co/1200x500/27272a/ffffff?text=iPhone+15+Pro+Max',
         link: '/products/apple-iphone-15-pro-max',
         buttonText: 'Buy Now',
         position: 'hero',
@@ -288,7 +288,7 @@ const seed = async () => {
       {
         title: 'Accessories Sale',
         subtitle: 'Up to 60% off on all accessories',
-        image: 'https://images.unsplash.com/photo-1590658268037-6af12165ae66?w=1200',
+        image: 'https://placehold.co/1200x500/2563eb/ffffff?text=Accessories+Sale',
         link: '/categories/mobile-accessories',
         buttonText: 'Explore',
         position: 'promo',

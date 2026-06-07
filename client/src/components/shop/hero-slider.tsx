@@ -35,9 +35,9 @@ export function HeroSlider({ banners }: HeroSliderProps) {
         <div className="max-w-xl">
           <h1 className="text-3xl font-bold sm:text-5xl">Welcome to MobiStore</h1>
           <p className="mt-4 text-lg text-blue-100">Discover the latest smartphones at unbeatable prices.</p>
-          <Link href="/products" className="mt-6 inline-block">
-            <Button size="lg" variant="secondary">Shop Now</Button>
-          </Link>
+          <Button size="lg" variant="secondary" className="mt-6" asChild>
+            <Link href="/products">Shop Now</Link>
+          </Button>
         </div>
       </div>
     );
@@ -66,9 +66,9 @@ export function HeroSlider({ banners }: HeroSliderProps) {
                       <p className="mt-2 max-w-md text-sm text-zinc-200 sm:text-lg">{banner.subtitle}</p>
                     )}
                     {banner.link && (
-                      <Link href={banner.link} className="mt-4 inline-block">
-                        <Button size="lg">{banner.buttonText || 'Shop Now'}</Button>
-                      </Link>
+                      <Button size="lg" className="mt-4" asChild>
+                        <Link href={banner.link}>{banner.buttonText || 'Shop Now'}</Link>
+                      </Button>
                     )}
                   </div>
                 </div>
@@ -82,6 +82,7 @@ export function HeroSlider({ banners }: HeroSliderProps) {
         onClick={scrollPrev}
         className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 opacity-0 shadow transition-opacity group-hover:opacity-100 dark:bg-zinc-900/90"
         aria-label="Previous slide"
+        suppressHydrationWarning
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
@@ -89,6 +90,7 @@ export function HeroSlider({ banners }: HeroSliderProps) {
         onClick={scrollNext}
         className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 opacity-0 shadow transition-opacity group-hover:opacity-100 dark:bg-zinc-900/90"
         aria-label="Next slide"
+        suppressHydrationWarning
       >
         <ChevronRight className="h-5 w-5" />
       </button>
@@ -103,6 +105,7 @@ export function HeroSlider({ banners }: HeroSliderProps) {
               i === selectedIndex ? 'w-6 bg-white' : 'w-2 bg-white/50'
             )}
             aria-label={`Go to slide ${i + 1}`}
+            suppressHydrationWarning
           />
         ))}
       </div>
