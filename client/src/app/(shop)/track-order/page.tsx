@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import { formatPrice } from '@/lib/utils';
 
 function TrackOrderContent() {

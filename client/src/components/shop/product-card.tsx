@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import { Product } from '@/types';

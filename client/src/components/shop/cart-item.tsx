@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import Link from 'next/link';
 import { Minus, Plus, Trash2, Bookmark } from 'lucide-react';
 import { CartItem as CartItemType } from '@/types';

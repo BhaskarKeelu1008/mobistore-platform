@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import { serverFetch } from '@/lib/server-api';
 import { Offer } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';

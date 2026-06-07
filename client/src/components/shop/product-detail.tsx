@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import Link from 'next/link';
 import { Minus, Plus, ShoppingCart, Heart, Star, Truck, Shield, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';

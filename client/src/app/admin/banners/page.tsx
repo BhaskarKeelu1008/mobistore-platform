@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import { fetchApi } from '@/lib/api';
 import { Banner } from '@/types';
 import { DataTable } from '@/components/admin/data-table';

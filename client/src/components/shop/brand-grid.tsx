@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { RemoteImage as Image } from '@/components/ui/remote-image';
 import { Brand } from '@/types';
 import { cn } from '@/lib/utils';
 
