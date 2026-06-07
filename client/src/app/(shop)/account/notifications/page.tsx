@@ -23,6 +23,7 @@ export default function NotificationsPage() {
     mutationFn: () => api.put('/public/notifications/read-all'),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] });
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
       toast.success('All notifications marked as read');
     },
   });
@@ -30,6 +31,7 @@ export default function NotificationsPage() {
   const markRead = async (id: string) => {
     await api.put(`/public/notifications/${id}/read`);
     queryClient.invalidateQueries({ queryKey: ['notifications'] });
+    queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
   };
 
   if (isLoading) return <Skeleton className="h-64" />;

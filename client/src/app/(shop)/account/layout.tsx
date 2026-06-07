@@ -12,6 +12,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
+import { useUnreadCounts } from '@/hooks/use-unread-counts';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -28,6 +29,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading, logout, user } = useAuthStore();
+  const { data: unreadCounts } = useUnreadCounts();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -63,7 +65,15 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       <div className="grid gap-8 lg:grid-cols-4">
         <aside className="space-y-2">
           <nav className="rounded-xl border border-zinc-200 bg-white p-2 dark:border-zinc-800 dark:bg-zinc-900">
-            {accountLinks.map(({ href, label, icon: Icon, exact }) => (
+            {accountLinks.map(({ href, label, icon: Icon, exact }) => {
+              const count =
+                href === '/account/notifications'
+                  ? unreadCounts?.notifications ?? 0
+                  : href === '/account/chat'
+                    ? unreadCounts?.chat ?? 0
+                    : 0;
+
+              return (
               <Link
                 key={href}
                 href={href}
@@ -75,9 +85,15 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {label}
+                <span className="flex-1">{label}</span>
+                {count > 0 && (
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1.5 text-[10px] font-semibold text-white">
+                    {count > 99 ? '99+' : count}
+                  </span>
+                )}
               </Link>
-            ))}
+            );
+            })}
             <Button variant="ghost" className="mt-2 w-full justify-start gap-3 text-red-600" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
               Logout

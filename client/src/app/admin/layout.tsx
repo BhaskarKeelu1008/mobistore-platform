@@ -23,6 +23,7 @@ import {
   Truck,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
+import { useUnreadCounts } from '@/hooks/use-unread-counts';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -47,6 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, isLoading, logout } = useAuthStore();
+  const { data: unreadCounts } = useUnreadCounts();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isAdmin = user && ['admin', 'staff', 'superadmin'].includes(user.role);
@@ -85,7 +87,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Button>
         </div>
         <nav className="space-y-1 p-3">
-          {adminLinks.map(({ href, label, icon: Icon, exact }) => (
+          {adminLinks.map(({ href, label, icon: Icon, exact }) => {
+            const count = href === '/admin/chat' ? unreadCounts?.chat ?? 0 : 0;
+
+            return (
             <Link
               key={href}
               href={href}
@@ -98,9 +103,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               )}
             >
               <Icon className="h-4 w-4" />
-              {label}
+              <span className="flex-1">{label}</span>
+              {count > 0 && (
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1.5 text-[10px] font-semibold text-white">
+                  {count > 99 ? '99+' : count}
+                </span>
+              )}
             </Link>
-          ))}
+          );
+          })}
         </nav>
         <div className="absolute bottom-0 left-0 right-0 border-t p-3 dark:border-zinc-800">
           <Link href="/" className="mb-2 block text-center text-sm text-blue-600 hover:underline">View Store</Link>

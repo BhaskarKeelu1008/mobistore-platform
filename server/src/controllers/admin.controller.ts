@@ -146,6 +146,28 @@ export const markAllNotificationsRead = asyncHandler(async (req: AuthRequest, re
   sendResponse(res, 200, 'All notifications marked as read');
 });
 
+export const getUnreadCounts = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const userId = req.user!.id;
+  const role = req.user!.role;
+  const isStaff = ['admin', 'staff', 'superadmin'].includes(role);
+
+  const notificationCount = await Notification.countDocuments({ user: userId, isRead: false });
+
+  let chatCount = 0;
+  if (isStaff) {
+    const staffChats = await Chat.find({ status: { $ne: 'closed' } }).select('unreadAdmin');
+    chatCount = staffChats.reduce((sum, chat) => sum + (chat.unreadAdmin || 0), 0);
+  } else {
+    const customerChats = await Chat.find({ customer: userId, status: { $ne: 'closed' } }).select('unreadCustomer');
+    chatCount = customerChats.reduce((sum, chat) => sum + (chat.unreadCustomer || 0), 0);
+  }
+
+  sendResponse(res, 200, 'Unread counts fetched', {
+    notifications: notificationCount,
+    chat: chatCount,
+  });
+});
+
 export const getStaffUsers = asyncHandler(async (_req: AuthRequest, res: Response) => {
   const staff = await User.find({ role: { $in: ['admin', 'staff', 'superadmin'] } });
   sendResponse(res, 200, 'Staff fetched', staff);

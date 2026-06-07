@@ -32,12 +32,19 @@ export default function AccountChatPage() {
     refetchInterval: 5000,
   });
 
+  useEffect(() => {
+    if (activeChatId && messages.length >= 0) {
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
+    }
+  }, [activeChatId, messages.length, queryClient]);
+
   const sendMutation = useMutation({
     mutationFn: (content: string) => api.post(`/chat/${activeChatId}/messages`, { content, messageType: 'text' }),
     onSuccess: () => {
       setMessage('');
       queryClient.invalidateQueries({ queryKey: ['chat-messages', activeChatId] });
       queryClient.invalidateQueries({ queryKey: ['my-chats'] });
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
     },
   });
 

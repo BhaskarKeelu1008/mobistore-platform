@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { fetchApi } from '@/lib/api';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/auth-store';
+import { useUnreadCounts } from '@/hooks/use-unread-counts';
+import { CountBadge } from '@/components/ui/count-badge';
 import { Chat, Message, Settings } from '@/types';
 import { cn, formatDate } from '@/lib/utils';
 import Link from 'next/link';
@@ -18,6 +20,7 @@ export function ChatWidget() {
   const [chatId, setChatId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { isAuthenticated } = useAuthStore();
+  const { data: unreadCounts } = useUnreadCounts();
   const queryClient = useQueryClient();
 
   const { data: settings } = useQuery({
@@ -49,6 +52,12 @@ export function ChatWidget() {
     refetchInterval: open ? 5000 : false,
   });
 
+  useEffect(() => {
+    if (open && activeChatId) {
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
+    }
+  }, [open, activeChatId, messages.length, queryClient]);
+
   const sendMutation = useMutation({
     mutationFn: (content: string) =>
       api.post(`/chat/${activeChatId}/messages`, { content, messageType: 'text' }),
@@ -56,6 +65,7 @@ export function ChatWidget() {
       setMessage('');
       refetchMessages();
       queryClient.invalidateQueries({ queryKey: ['chat-messages', activeChatId] });
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
     },
   });
 
@@ -81,11 +91,12 @@ export function ChatWidget() {
       {!open && (
         <button
           onClick={handleOpen}
-          className="fixed bottom-4 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-blue-700"
+          className="fixed bottom-4 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-transform hover:scale-105 hover:bg-blue-700 relative"
           aria-label="Open chat"
           suppressHydrationWarning
         >
           <MessageSquare className="h-6 w-6" />
+          <CountBadge count={unreadCounts?.chat ?? 0} className="-right-0.5 -top-0.5" />
           {settings?.chat?.adminOnline && (
             <span className="absolute right-1 top-1 h-3 w-3 rounded-full border-2 border-white bg-green-500" />
           )}

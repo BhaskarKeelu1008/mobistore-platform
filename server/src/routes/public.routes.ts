@@ -27,6 +27,7 @@ router.get('/wishlist', authenticate, settingsController.getWishlist);
 router.post('/wishlist/:productId', authenticate, settingsController.toggleWishlist);
 router.delete('/wishlist/:productId', authenticate, settingsController.toggleWishlist);
 router.get('/notifications', authenticate, adminController.getNotifications);
+router.get('/unread-counts', authenticate, adminController.getUnreadCounts);
 router.put('/notifications/:id/read', authenticate, adminController.markNotificationRead);
 router.put('/notifications/read-all', authenticate, adminController.markAllNotificationsRead);
 router.get('/invoices/:invoiceNumber/download', authenticate, adminController.downloadInvoice);

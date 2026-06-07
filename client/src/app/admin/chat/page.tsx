@@ -32,12 +32,19 @@ export default function AdminChatPage() {
     refetchInterval: 5000,
   });
 
+  useEffect(() => {
+    if (selectedChatId) {
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
+    }
+  }, [selectedChatId, messages.length, queryClient]);
+
   const sendMutation = useMutation({
     mutationFn: (content: string) => api.post(`/chat/${selectedChatId}/messages`, { content }),
     onSuccess: () => {
       setMessage('');
       queryClient.invalidateQueries({ queryKey: ['admin-chat-messages', selectedChatId] });
       queryClient.invalidateQueries({ queryKey: ['admin-chats'] });
+      queryClient.invalidateQueries({ queryKey: ['unread-counts'] });
     },
   });
 
