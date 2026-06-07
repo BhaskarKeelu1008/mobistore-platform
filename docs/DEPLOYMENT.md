@@ -86,6 +86,8 @@ CLOUDINARY_API_SECRET=...
 FRONTEND_URL=https://your-app.vercel.app
 ```
 
+> Use **no trailing slash** on `FRONTEND_URL` (e.g. `https://mobistore-platform.vercel.app`, not `...vercel.app/`).
+
 > **Common Render error:** `ENOTFOUND _mongodb._tcp.YOUR_CLUSTER.mongodb.net` means `MONGODB_URI` still contains a template hostname. Replace it with your real Atlas cluster host.
 
 5. Deploy and note API URL: `https://your-api.onrender.com`

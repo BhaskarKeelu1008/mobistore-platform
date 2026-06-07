@@ -8,7 +8,7 @@ import rateLimit from 'express-rate-limit';
 import swaggerUi from 'swagger-ui-express';
 import { createServer } from 'http';
 import { connectDB } from './config/db';
-import { env } from './config/env';
+import { env, normalizeOrigin } from './config/env';
 import { validateEnv } from './config/validate-env';
 import { swaggerSpec } from './config/swagger';
 import routes from './routes';
@@ -20,7 +20,24 @@ const httpServer = createServer(app);
 
 app.set('trust proxy', 1);
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
-app.use(cors({ origin: env.frontendUrl, credentials: true }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      if (normalizeOrigin(origin) === env.frontendUrl) {
+        callback(null, env.frontendUrl);
+        return;
+      }
+
+      callback(null, false);
+    },
+    credentials: true,
+  })
+);
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
