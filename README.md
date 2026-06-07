@@ -1,247 +1,103 @@
 # MobiStore Platform
 
-MobiStore Platform is a modern full-stack mobile shop e-commerce solution designed for mobile stores to create and manage their own online storefront with advanced admin management, inventory tracking, billing, payments, customer chat, and analytics.
+Production-ready mobile shop e-commerce platform with customer website, admin panel, billing, inventory, chat, payments, and analytics.
 
----
+## Project Structure
 
-## 🚀 Features
-
-### Customer Website
-
-* Responsive modern UI
-* Product browsing & search
-* Categories & filters
-* Cart & wishlist
-* Checkout & online payments
-* Order tracking
-* Customer authentication
-* Reviews & ratings
-* WhatsApp integration
-* Live customer chat
-
-### Admin Panel
-
-* Dashboard analytics
-* Product management
-* Inventory management
-* Order management
-* Customer management
-* Billing & invoice generation
-* Banner & CMS management
-* Theme customization
-* Coupon & offer management
-* Sales reports
-
-### Additional Features
-
-* Razorpay payment gateway
-* Cloudinary image upload
-* JWT authentication
-* Role-based access
-* SEO optimization
-* Mobile-first design
-* Dark/Light mode
-* REST APIs
-* Deployment-ready setup
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-* Next.js 15
-* TypeScript
-* Tailwind CSS
-* ShadCN UI
-* Zustand / Redux Toolkit
-
-### Backend
-
-* Node.js
-* Express.js
-* TypeScript
-
-### Database
-
-* MongoDB Atlas
-
-### Deployment
-
-* Vercel (Frontend)
-* Render / Railway (Backend)
-* MongoDB Atlas (Database)
-* Cloudinary (Image Storage)
-
----
-
-## 📁 Project Structure
-
-```bash
+```
 mobistore-platform/
-│
-├── client/                 # Frontend Application
-├── server/                 # Backend APIs
-├── docs/                   # Documentation
-├── public/                 # Static Assets
-├── scripts/                # Utility Scripts
+├── client/          # Next.js 15 frontend (Vercel)
+├── server/          # Express.js API (Render/Railway)
+├── docs/            # Deployment guide & Postman collection
 └── README.md
 ```
 
----
+## Tech Stack
 
-## ⚙️ Environment Variables
+| Layer | Technologies |
+|-------|-------------|
+| Frontend | Next.js 15, TypeScript, Tailwind CSS, ShadCN-style UI, Zustand, TanStack Query, Framer Motion |
+| Backend | Node.js, Express, TypeScript, Socket.io |
+| Database | MongoDB Atlas |
+| Storage | Cloudinary |
+| Payments | Razorpay (UPI, Cards, COD) |
 
-### Frontend (.env.local)
+## Quick Start (Local)
 
-```env
-NEXT_PUBLIC_API_URL=
-NEXT_PUBLIC_RAZORPAY_KEY=
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
-```
+### Prerequisites
+- Node.js 18+
+- MongoDB (local or Atlas)
 
-### Backend (.env)
-
-```env
-PORT=
-MONGODB_URI=
-JWT_SECRET=
-JWT_REFRESH_SECRET=
-RAZORPAY_KEY_ID=
-RAZORPAY_SECRET=
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-FRONTEND_URL=
-```
-
----
-
-## 📦 Installation
-
-### Clone Repository
-
-```bash
-git clone <repository-url>
-cd mobistore-platform
-```
-
-### Frontend Setup
-
-```bash
-cd client
-npm install
-npm run dev
-```
-
-### Backend Setup
+### 1. Backend
 
 ```bash
 cd server
+cp .env.example .env
+# Edit .env with your MongoDB URI and secrets
 npm install
-npm run dev
+npm run seed    # Seeds demo data
+npm run dev     # http://localhost:5000
 ```
 
----
+### 2. Frontend
 
-## 🧩 Core Modules
+```bash
+cd client
+cp .env.example .env.local
+npm install
+npm run dev     # http://localhost:3000
+```
 
-* Authentication System
-* Product Management
-* Category Management
-* Inventory Management
-* Billing & Invoice System
-* Order Management
-* Payment Gateway
-* Customer Chat System
-* Notification System
-* Analytics Dashboard
-* CMS & Theme Management
+## Demo Accounts (after seed)
 
----
+| Role | Email | Password |
+|------|-------|----------|
+| Super Admin | admin@mobistore.com | Admin@123 |
+| Customer | customer@demo.com | Customer@123 |
+| Staff | staff@mobistore.com | Staff@123 |
 
-## 🔐 Authentication
+## Features
 
-* JWT Authentication
-* Refresh Token Support
-* Role-Based Access Control
-* Protected Routes
-* Secure API Middleware
+### Customer Website
+- Product catalog with filters, search, voice-ready search bar
+- Cart, wishlist, checkout (COD + Razorpay)
+- Order tracking, account management
+- Live chat widget + WhatsApp integration
+- Dark/light theme, responsive design
 
----
+### Admin Panel (`/admin`)
+- Dashboard with revenue charts
+- Products, categories, brands, orders
+- Inventory management with low-stock alerts
+- Customer chat management
+- Banners, offers, coupons, delivery zones
+- Store settings & SEO configuration
 
-## 💳 Payment Integration
+### Backend API
+- REST APIs with Swagger docs at `/api/docs`
+- JWT auth with refresh tokens
+- Role-based access control
+- Socket.io real-time chat
+- GST invoicing with PDF download
+- Postman collection in `docs/postman/`
 
-Integrated with:
+## Deployment
 
-* Razorpay
-* UPI Payments
-* Credit/Debit Cards
-* COD Support
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for full Vercel + Render + MongoDB Atlas setup.
 
----
+## API Documentation
 
-## ☁️ Deployment
+- Swagger UI: `http://localhost:5000/api/docs`
+- Postman: Import `docs/postman/MobiStore-API.postman_collection.json`
 
-### Frontend Deployment
+## Environment Variables
 
-Deploy frontend using Vercel Free Tier.
+### Server (`server/.env`)
+See `server/.env.example`
 
-### Backend Deployment
+### Client (`client/.env.local`)
+See `client/.env.example`
 
-Deploy backend using Render or Railway Free Tier.
+## License
 
-### Database
-
-Use MongoDB Atlas Free Cluster.
-
-### Image Uploads
-
-Use Cloudinary Free Tier.
-
----
-
-## 📊 Admin Dashboard
-
-Dashboard includes:
-
-* Total Revenue
-* Orders
-* Customers
-* Sales Graphs
-* Top Products
-* Inventory Reports
-* Order Analytics
-
----
-
-## 📱 Responsive Design
-
-Fully optimized for:
-
-* Mobile Devices
-* Tablets
-* Desktop Screens
-
----
-
-## 🔥 Future Enhancements
-
-* PWA Support
-* Multi-vendor Support
-* AI Chatbot
-* Delivery Partner Integration
-* Mobile App Version
-* Advanced Analytics
-
----
-
-## 📄 License
-
-This project is intended for educational, client POC, and commercial customization purposes.
-
----
-
-## 👨‍💻 Developed With
-
-Built using modern MERN stack architecture and scalable production-ready practices.
+For educational, client POC, and commercial customization purposes.

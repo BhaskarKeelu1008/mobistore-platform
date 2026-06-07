@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "MobiStore Platform API",
+    "description": "Complete Mobile Shop E-Commerce API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "accessToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"name\":\"Test User\",\"email\":\"test@test.com\",\"password\":\"Test@123\"}" },
+            "url": "{{baseUrl}}/auth/register"
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": ["var json = pm.response.json();", "if(json.data.accessToken) pm.collectionVariables.set('accessToken', json.data.accessToken);"]
+            }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"email\":\"admin@mobistore.com\",\"password\":\"Admin@123\"}" },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get Products",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products?page=1&limit=12" }
+        },
+        {
+          "name": "Get Featured",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products/featured" }
+        },
+        {
+          "name": "Search Suggestions",
+          "request": { "method": "GET", "url": "{{baseUrl}}/products/search/suggestions?q=samsung" }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "My Orders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/orders/my-orders"
+          }
+        },
+        {
+          "name": "Track Order",
+          "request": { "method": "GET", "url": "{{baseUrl}}/orders/track?orderNumber=MSDEMO001&phone=9123456789" }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/admin/dashboard"
+          }
+        },
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/admin/settings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "Get Chat Status",
+          "request": { "method": "GET", "url": "{{baseUrl}}/chat/status" }
+        },
+        {
+          "name": "Get Chats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": "{{baseUrl}}/chat"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Get Settings",
+          "request": { "method": "GET", "url": "{{baseUrl}}/public/settings" }
+        },
+        {
+          "name": "Get Banners",
+          "request": { "method": "GET", "url": "{{baseUrl}}/public/banners" }
+        },
+        {
+          "name": "Health Check",
+          "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+        }
+      ]
+    }
+  ]
+}
